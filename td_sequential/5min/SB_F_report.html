@@ -1,0 +1,1404 @@
+<html>
+    <head>
+    <title>TD Sequential Reliability Evaluation</title>
+    <style>
+        .hint,[data-hint]{position:relative;display:inline-block}.hint:before,.hint:after,[data-hint]:before,[data-hint]:after{position:absolute;-webkit-transform:translate3d(0,0,0);-moz-transform:translate3d(0,0,0);transform:translate3d(0,0,0);visibility:hidden;opacity:0;z-index:1000000;pointer-events:none;-webkit-transition:.3s ease;-moz-transition:.3s ease;transition:.3s ease}.hint:hover:before,.hint:hover:after,.hint:focus:before,.hint:focus:after,[data-hint]:hover:before,[data-hint]:hover:after,[data-hint]:focus:before,[data-hint]:focus:after{visibility:visible;opacity:1}.hint:before,[data-hint]:before{content:'';position:absolute;background:transparent;border:6px solid transparent;z-index:1000001}.hint:after,[data-hint]:after{content:attr(data-hint);background:#383838;color:#fff;text-shadow:0 -1px 0 #000;padding:8px 11px;font-size:12px;line-height:12px;white-space:pre;box-shadow:4px 4px 8px rgba(0,0,0,.3)}.hint--top:before{border-top-color:#383838}.hint--bottom:before{border-bottom-color:#383838}.hint--left:before{border-left-color:#383838}.hint--right:before{border-right-color:#383838}.hint--top:before{margin-bottom:-12px}.hint--top:after{margin-left:-11px}.hint--top:before,.hint--top:after{bottom:100%;left:50%}.hint--top:hover:after,.hint--top:hover:before,.hint--top:focus:after,.hint--top:focus:before{-webkit-transform:translateY(-8px);-moz-transform:translateY(-8px);transform:translateY(-8px)}.hint--bottom:before{margin-top:-12px}.hint--bottom:after{margin-left:-11px}.hint--bottom:before,.hint--bottom:after{top:100%;left:50%}.hint--bottom:hover:after,.hint--bottom:hover:before,.hint--bottom:focus:after,.hint--bottom:focus:before{-webkit-transform:translateY(8px);-moz-transform:translateY(8px);transform:translateY(8px)}.hint--right:before{margin-left:-12px;margin-bottom:-6px}.hint--right:after{margin-bottom:-14px}.hint--right:before,.hint--right:after{left:100%;bottom:50%}.hint--right:hover:after,.hint--right:hover:before,.hint--right:focus:after,.hint--right:focus:before{-webkit-transform:translateX(8px);-moz-transform:translateX(8px);transform:translateX(8px)}.hint--left:before{margin-right:-12px;margin-bottom:-6px}.hint--left:after{margin-bottom:-14px}.hint--left:before,.hint--left:after{right:100%;bottom:50%}.hint--left:hover:after,.hint--left:hover:before,.hint--left:focus:after,.hint--left:focus:before{-webkit-transform:translateX(-8px);-moz-transform:translateX(-8px);transform:translateX(-8px)}.hint--error:after{background-color:#b34e4d;text-shadow:0 -1px 0 #592726}.hint--error.hint--top:before{border-top-color:#b34e4d}.hint--error.hint--bottom:before{border-bottom-color:#b34e4d}.hint--error.hint--left:before{border-left-color:#b34e4d}.hint--error.hint--right:before{border-right-color:#b34e4d}.hint--warning:after{background-color:#c09854;text-shadow:0 -1px 0 #6c5328}.hint--warning.hint--top:before{border-top-color:#c09854}.hint--warning.hint--bottom:before{border-bottom-color:#c09854}.hint--warning.hint--left:before{border-left-color:#c09854}.hint--warning.hint--right:before{border-right-color:#c09854}.hint--info:after{background-color:#3986ac;text-shadow:0 -1px 0 #193b4d}.hint--info.hint--top:before{border-top-color:#3986ac}.hint--info.hint--bottom:before{border-bottom-color:#3986ac}.hint--info.hint--left:before{border-left-color:#3986ac}.hint--info.hint--right:before{border-right-color:#3986ac}.hint--success:after{background-color:#458746;text-shadow:0 -1px 0 #1a321a}.hint--success.hint--top:before{border-top-color:#458746}.hint--success.hint--bottom:before{border-bottom-color:#458746}.hint--success.hint--left:before{border-left-color:#458746}.hint--success.hint--right:before{border-right-color:#458746}.hint--always:after,.hint--always:before{opacity:1;visibility:visible}.hint--always.hint--top:after,.hint--always.hint--top:before{-webkit-transform:translateY(-8px);-moz-transform:translateY(-8px);transform:translateY(-8px)}.hint--always.hint--bottom:after,.hint--always.hint--bottom:before{-webkit-transform:translateY(8px);-moz-transform:translateY(8px);transform:translateY(8px)}.hint--always.hint--left:after,.hint--always.hint--left:before{-webkit-transform:translateX(-8px);-moz-transform:translateX(-8px);transform:translateX(-8px)}.hint--always.hint--right:after,.hint--always.hint--right:before{-webkit-transform:translateX(8px);-moz-transform:translateX(8px);transform:translateX(8px)}.hint--rounded:after{border-radius:4px}.hint--bounce:before,.hint--bounce:after{-webkit-transition:opacity .3s ease,visibility .3s ease,-webkit-transform .3s cubic-bezier(0.71,1.7,.77,1.24);-moz-transition:opacity .3s ease,visibility .3s ease,-moz-transform .3s cubic-bezier(0.71,1.7,.77,1.24);transition:opacity .3s ease,visibility .3s ease,transform .3s cubic-bezier(0.71,1.7,.77,1.24)} 
+        body {background-color: #222222; color: #eeeeee; font-family: monospace, monospace; }
+        h1 {color: #eeeeee}
+        a {color: #dddddd;} a:hover, a:active {color: #9999ff;}
+    </style>
+    </head>
+    <body>
+        <h1>TD Sequential Reliability Evaluation for SB_F </h1>
+        <table>
+            <tr>
+                <td style="font-size: 12px">Date</td>
+                <td style="font-size: 12px">Trend</td>
+                <td style="font-size: 12px">Setup</td>
+                <td style="font-size: 12px">Close</td>
+                <td style="font-size: 12px">Bar +1</td>
+                <td style="font-size: 12px">Bar +2</td>
+                <td style="font-size: 12px">Bar +3</td>
+                <td style="font-size: 12px">Bar +4</td>
+                <td style="font-size: 12px">Bar +5</td>
+                <td style="font-size: 12px">Bar +6</td>
+                <td style="font-size: 12px">Bar +7</td>
+                <td style="font-size: 12px">Bar +8</td>
+                <td style="font-size: 12px">Bar +9</td>
+                <td style="font-size: 12px">Bar +10</td>
+                <td style="font-size: 12px">Bar +11</td>
+                <td style="font-size: 12px">Bar +12</td>
+                <td style="font-size: 12px">Bar +13</td>
+                <td style="font-size: 12px">Bar +14</td>
+                <td style="font-size: 12px">Bar +15</td>
+            </tr>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-01-22 14:15:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.15 | MA9: 16.04 ( 0.66%)">up</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.89</td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint="-0.13%">15.87</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint="-0.13%">15.87</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint="-0.13%">15.87</span></td>
+  <td style="background-color: #92d9ff"><span class="hint--top" data-hint=" 0.13%">15.91</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">15.88</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.89</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint="-0.19%">15.86</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">15.88</span></td>
+  <td style="background-color: #ff5897"><span class="hint--top" data-hint="-0.25%">15.85</span></td>
+  <td style="background-color: #ff3b85"><span class="hint--top" data-hint="-0.31%">15.84</span></td>
+  <td style="background-color: #ff5897"><span class="hint--top" data-hint="-0.25%">15.85</span></td>
+  <td style="background-color: #ff5897"><span class="hint--top" data-hint="-0.25%">15.85</span></td>
+  <td style="background-color: #ff1e73"><span class="hint--top" data-hint="-0.38%">15.83</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint="-0.19%">15.86</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.44%">15.82</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-01-25 09:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.01 | MA9: 16.05 (- 0.27%)">down</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.05</td>
+  <td style="background-color: #9adbff"><span class="hint--top" data-hint="-0.06%">16.04</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.05</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint="-0.12%">16.03</span></td>
+  <td style="background-color: #ff99c0"><span class="hint--top" data-hint=" 0.06%">16.06</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint=" 0.19%">16.08</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint=" 0.12%">16.07</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.05</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.05</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.25%">16.09</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint=" 0.12%">16.07</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint=" 0.19%">16.08</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.25%">16.09</span></td>
+  <td style="background-color: #ff99c0"><span class="hint--top" data-hint=" 0.06%">16.06</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint=" 0.19%">16.08</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint=" 0.19%">16.08</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-01-25 15:35:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.01 | MA9: 16.05 (- 0.27%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.83</td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint=" 0.13%">15.85</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.06%">15.84</span></td>
+  <td style="background-color: #ffa4c6"><span class="hint--top" data-hint="-0.06%">15.82</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.32%">15.88</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint=" 0.13%">15.85</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint=" 0.13%">15.85</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.06%">15.84</span></td>
+  <td style="background-color: #ff7bad"><span class="hint--top" data-hint="-0.13%">15.81</span></td>
+  <td style="background-color: #ffa4c6"><span class="hint--top" data-hint="-0.06%">15.82</span></td>
+  <td style="background-color: #ffa4c6"><span class="hint--top" data-hint="-0.06%">15.82</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint="-0.19%">15.80</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint="-0.19%">15.80</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.83</span></td>
+  <td style="background-color: #ff7bad"><span class="hint--top" data-hint="-0.13%">15.81</span></td>
+  <td style="background-color: #ffa4c6"><span class="hint--top" data-hint="-0.06%">15.82</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-01-28 16:10:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.75 | MA9: 15.96 (- 1.31%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.68</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.68</span></td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint=" 0.06%">15.69</span></td>
+  <td style="background-color: #ffb8d3"><span class="hint--top" data-hint="-0.06%">15.67</span></td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint=" 0.06%">15.69</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.13%">15.70</span></td>
+  <td style="background-color: #8fd8ff"><span class="hint--top" data-hint=" 0.19%">15.71</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.68</span></td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint=" 0.06%">15.69</span></td>
+  <td style="background-color: #ffb8d3"><span class="hint--top" data-hint="-0.06%">15.67</span></td>
+  <td style="background-color: #ff3e87"><span class="hint--top" data-hint="-0.45%">15.61</span></td>
+  <td style="background-color: #ff3e87"><span class="hint--top" data-hint="-0.45%">15.61</span></td>
+  <td style="background-color: #ff297a"><span class="hint--top" data-hint="-0.51%">15.60</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint="-0.38%">15.62</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.64%">15.58</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint="-0.32%">15.63</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-01-29 14:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.74 | MA9: 15.89 (- 0.93%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.60</td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.13%">15.58</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.60</span></td>
+  <td style="background-color: #abe1ff"><span class="hint--top" data-hint=" 0.13%">15.62</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.60</span></td>
+  <td style="background-color: #abe1ff"><span class="hint--top" data-hint=" 0.13%">15.62</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.13%">15.58</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.13%">15.58</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.60</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.13%">15.58</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.13%">15.58</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.26%">15.56</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.13%">15.58</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.26%">15.64</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.77%">15.72</span></td>
+  <td style="background-color: #12abff"><span class="hint--top" data-hint=" 0.71%">15.71</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-01-29 17:10:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.74 | MA9: 15.89 (- 0.93%)">down</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.94</td>
+  <td style="background-color: #c0e9ff"><span class="hint--top" data-hint="-0.31%">15.89</span></td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint="-0.50%">15.86</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint="-0.63%">15.84</span></td>
+  <td style="background-color: #b6e5ff"><span class="hint--top" data-hint="-0.56%">15.85</span></td>
+  <td style="background-color: #b0e3ff"><span class="hint--top" data-hint="-0.69%">15.83</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint="-0.63%">15.84</span></td>
+  <td style="background-color: #a6e0ff"><span class="hint--top" data-hint="-0.94%">15.79</span></td>
+  <td style="background-color: #b0e3ff"><span class="hint--top" data-hint="-0.69%">15.83</span></td>
+  <td style="background-color: #b6e5ff"><span class="hint--top" data-hint="-0.56%">15.85</span></td>
+  <td style="background-color: #ffc7dc"><span class="hint--top" data-hint=" 0.13%">15.96</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-5.02%">15.14</span></td>
+  <td style="background-color: #08a7ff"><span class="hint--top" data-hint="-4.83%">15.17</span></td>
+  <td style="background-color: #10aaff"><span class="hint--top" data-hint="-4.64%">15.20</span></td>
+  <td style="background-color: #ffc2d9"><span class="hint--top" data-hint=" 0.25%">15.98</span></td>
+  <td style="background-color: #ffc7dc"><span class="hint--top" data-hint=" 0.13%">15.96</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-02 15:15:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 15.93 | MA9: 15.90 ( 0.23%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.49</td>
+  <td style="background-color: #8cd6ff"><span class="hint--top" data-hint="-0.39%">15.43</span></td>
+  <td style="background-color: #81d3ff"><span class="hint--top" data-hint="-0.45%">15.42</span></td>
+  <td style="background-color: #a2deff"><span class="hint--top" data-hint="-0.26%">15.45</span></td>
+  <td style="background-color: #81d3ff"><span class="hint--top" data-hint="-0.45%">15.42</span></td>
+  <td style="background-color: #81d3ff"><span class="hint--top" data-hint="-0.45%">15.42</span></td>
+  <td style="background-color: #77cfff"><span class="hint--top" data-hint="-0.52%">15.41</span></td>
+  <td style="background-color: #77cfff"><span class="hint--top" data-hint="-0.52%">15.41</span></td>
+  <td style="background-color: #6ccbff"><span class="hint--top" data-hint="-0.58%">15.40</span></td>
+  <td style="background-color: #61c7ff"><span class="hint--top" data-hint="-0.65%">15.39</span></td>
+  <td style="background-color: #77cfff"><span class="hint--top" data-hint="-0.52%">15.41</span></td>
+  <td style="background-color: #6ccbff"><span class="hint--top" data-hint="-0.58%">15.40</span></td>
+  <td style="background-color: #56c3ff"><span class="hint--top" data-hint="-0.71%">15.38</span></td>
+  <td style="background-color: #41bcff"><span class="hint--top" data-hint="-0.84%">15.36</span></td>
+  <td style="background-color: #16acff"><span class="hint--top" data-hint="-1.10%">15.32</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-1.23%">15.30</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-03 09:45:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 15.98 | MA9: 15.89 ( 0.54%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.38</td>
+  <td style="background-color: #ffbad4"><span class="hint--top" data-hint=" 0.07%">15.39</span></td>
+  <td style="background-color: #ffbad4"><span class="hint--top" data-hint=" 0.07%">15.39</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.38</span></td>
+  <td style="background-color: #70ccff"><span class="hint--top" data-hint="-0.33%">15.33</span></td>
+  <td style="background-color: #5dc6ff"><span class="hint--top" data-hint="-0.39%">15.32</span></td>
+  <td style="background-color: #70ccff"><span class="hint--top" data-hint="-0.33%">15.33</span></td>
+  <td style="background-color: #70ccff"><span class="hint--top" data-hint="-0.33%">15.33</span></td>
+  <td style="background-color: #82d3ff"><span class="hint--top" data-hint="-0.26%">15.34</span></td>
+  <td style="background-color: #5dc6ff"><span class="hint--top" data-hint="-0.39%">15.32</span></td>
+  <td style="background-color: #4bbfff"><span class="hint--top" data-hint="-0.46%">15.31</span></td>
+  <td style="background-color: #4bbfff"><span class="hint--top" data-hint="-0.46%">15.31</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.72%">15.27</span></td>
+  <td style="background-color: #13abff"><span class="hint--top" data-hint="-0.65%">15.28</span></td>
+  <td style="background-color: #26b2ff"><span class="hint--top" data-hint="-0.59%">15.29</span></td>
+  <td style="background-color: #38b8ff"><span class="hint--top" data-hint="-0.52%">15.30</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-05 08:55:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.19 | MA9: 15.99 ( 1.24%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.45</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.45</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.45</span></td>
+  <td style="background-color: #ffc0d8"><span class="hint--top" data-hint=" 0.06%">15.46</span></td>
+  <td style="background-color: #ffa9c9"><span class="hint--top" data-hint=" 0.19%">15.48</span></td>
+  <td style="background-color: #ffa9c9"><span class="hint--top" data-hint=" 0.19%">15.48</span></td>
+  <td style="background-color: #ff5495"><span class="hint--top" data-hint=" 0.65%">15.55</span></td>
+  <td style="background-color: #ff186f"><span class="hint--top" data-hint=" 0.97%">15.60</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 1.10%">15.62</span></td>
+  <td style="background-color: #ff307e"><span class="hint--top" data-hint=" 0.84%">15.58</span></td>
+  <td style="background-color: #ff488d"><span class="hint--top" data-hint=" 0.71%">15.56</span></td>
+  <td style="background-color: #ff307e"><span class="hint--top" data-hint=" 0.84%">15.58</span></td>
+  <td style="background-color: #ff78ab"><span class="hint--top" data-hint=" 0.45%">15.52</span></td>
+  <td style="background-color: #ff609c"><span class="hint--top" data-hint=" 0.58%">15.54</span></td>
+  <td style="background-color: #ff488d"><span class="hint--top" data-hint=" 0.71%">15.56</span></td>
+  <td style="background-color: #ff5495"><span class="hint--top" data-hint=" 0.65%">15.55</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-05 09:35:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.19 | MA9: 15.99 ( 1.24%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.62</td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.26%">15.58</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint="-0.38%">15.56</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.26%">15.58</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.64%">15.52</span></td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint="-0.51%">15.54</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint="-0.38%">15.56</span></td>
+  <td style="background-color: #3ebaff"><span class="hint--top" data-hint="-0.45%">15.55</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint="-0.38%">15.56</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint="-0.38%">15.56</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint="-0.38%">15.56</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.26%">15.58</span></td>
+  <td style="background-color: #8fd8ff"><span class="hint--top" data-hint="-0.19%">15.59</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.26%">15.58</span></td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint="-0.51%">15.54</span></td>
+  <td style="background-color: #3ebaff"><span class="hint--top" data-hint="-0.45%">15.55</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-05 16:00:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.19 | MA9: 15.99 ( 1.24%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.57</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.57</span></td>
+  <td style="background-color: #bee8ff"><span class="hint--top" data-hint="-0.06%">15.56</span></td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint="-0.13%">15.55</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint=" 0.13%">15.59</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint=" 0.26%">15.61</span></td>
+  <td style="background-color: #ffa1c4"><span class="hint--top" data-hint=" 0.19%">15.60</span></td>
+  <td style="background-color: #ffbed6"><span class="hint--top" data-hint=" 0.06%">15.58</span></td>
+  <td style="background-color: #ffbed6"><span class="hint--top" data-hint=" 0.06%">15.58</span></td>
+  <td style="background-color: #ffbed6"><span class="hint--top" data-hint=" 0.06%">15.58</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint=" 0.13%">15.59</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint=" 0.13%">15.59</span></td>
+  <td style="background-color: #ffbed6"><span class="hint--top" data-hint=" 0.06%">15.58</span></td>
+  <td style="background-color: #ff84b2"><span class="hint--top" data-hint=" 0.32%">15.62</span></td>
+  <td style="background-color: #ff498e"><span class="hint--top" data-hint=" 0.58%">15.66</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.90%">15.71</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-08 16:00:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.21 | MA9: 16.05 ( 1.02%)">UP</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.65</td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint="-0.13%">15.63</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.65</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.13%">15.67</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.26%">15.69</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.26%">15.69</span></td>
+  <td style="background-color: #23b1ff"><span class="hint--top" data-hint=" 0.32%">15.70</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.38%">15.71</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.26%">15.69</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.38%">15.71</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.38%">15.71</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.38%">15.71</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.38%">15.71</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.26%">15.69</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.19%">15.68</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.13%">15.67</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-08 17:45:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.21 | MA9: 16.05 ( 1.02%)">UP</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.63</td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">15.62</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.63</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.45%">15.56</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint="-0.13%">15.61</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint="-0.13%">15.61</span></td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint=" 0.06%">15.64</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint="-0.13%">15.61</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">15.62</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">15.62</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.63</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.63</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.63</span></td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint=" 0.06%">15.64</span></td>
+  <td style="background-color: #75ceff"><span class="hint--top" data-hint=" 0.19%">15.66</span></td>
+  <td style="background-color: #92d9ff"><span class="hint--top" data-hint=" 0.13%">15.65</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-09 14:40:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.24 | MA9: 16.12 ( 0.76%)">up</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.60</td>
+  <td style="background-color: #a7e0ff"><span class="hint--top" data-hint=" 0.13%">15.62</span></td>
+  <td style="background-color: #bae7ff"><span class="hint--top" data-hint=" 0.06%">15.61</span></td>
+  <td style="background-color: #5dc6ff"><span class="hint--top" data-hint=" 0.38%">15.66</span></td>
+  <td style="background-color: #82d3ff"><span class="hint--top" data-hint=" 0.26%">15.64</span></td>
+  <td style="background-color: #70ccff"><span class="hint--top" data-hint=" 0.32%">15.65</span></td>
+  <td style="background-color: #70ccff"><span class="hint--top" data-hint=" 0.32%">15.65</span></td>
+  <td style="background-color: #4bbfff"><span class="hint--top" data-hint=" 0.45%">15.67</span></td>
+  <td style="background-color: #13abff"><span class="hint--top" data-hint=" 0.64%">15.70</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.71%">15.71</span></td>
+  <td style="background-color: #4bbfff"><span class="hint--top" data-hint=" 0.45%">15.67</span></td>
+  <td style="background-color: #95daff"><span class="hint--top" data-hint=" 0.19%">15.63</span></td>
+  <td style="background-color: #95daff"><span class="hint--top" data-hint=" 0.19%">15.63</span></td>
+  <td style="background-color: #5dc6ff"><span class="hint--top" data-hint=" 0.38%">15.66</span></td>
+  <td style="background-color: #38b8ff"><span class="hint--top" data-hint=" 0.51%">15.68</span></td>
+  <td style="background-color: #38b8ff"><span class="hint--top" data-hint=" 0.51%">15.68</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-09 16:30:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.24 | MA9: 16.12 ( 0.76%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.81</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.81</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.81</span></td>
+  <td style="background-color: #ffc0d8"><span class="hint--top" data-hint=" 0.06%">15.82</span></td>
+  <td style="background-color: #ffa6c8"><span class="hint--top" data-hint=" 0.19%">15.84</span></td>
+  <td style="background-color: #ffb3d0"><span class="hint--top" data-hint=" 0.13%">15.83</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint="-0.13%">15.79</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.51%">15.73</span></td>
+  <td style="background-color: #73ceff"><span class="hint--top" data-hint="-0.44%">15.74</span></td>
+  <td style="background-color: #4dc0ff"><span class="hint--top" data-hint="-0.63%">15.71</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.51%">15.73</span></td>
+  <td style="background-color: #4dc0ff"><span class="hint--top" data-hint="-0.63%">15.71</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-1.01%">15.65</span></td>
+  <td style="background-color: #0da9ff"><span class="hint--top" data-hint="-0.95%">15.66</span></td>
+  <td style="background-color: #40bbff"><span class="hint--top" data-hint="-0.70%">15.70</span></td>
+  <td style="background-color: #1aaeff"><span class="hint--top" data-hint="-0.89%">15.67</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-10 13:20:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.38 | MA9: 16.24 ( 0.82%)">up</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.68</td>
+  <td style="background-color: #ffc0d8"><span class="hint--top" data-hint="-0.06%">15.67</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.68</span></td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint=" 0.26%">15.72</span></td>
+  <td style="background-color: #80d2ff"><span class="hint--top" data-hint=" 0.38%">15.74</span></td>
+  <td style="background-color: #80d2ff"><span class="hint--top" data-hint=" 0.38%">15.74</span></td>
+  <td style="background-color: #73ceff"><span class="hint--top" data-hint=" 0.45%">15.75</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.51%">15.76</span></td>
+  <td style="background-color: #73ceff"><span class="hint--top" data-hint=" 0.45%">15.75</span></td>
+  <td style="background-color: #5ac4ff"><span class="hint--top" data-hint=" 0.57%">15.77</span></td>
+  <td style="background-color: #4dc0ff"><span class="hint--top" data-hint=" 0.64%">15.78</span></td>
+  <td style="background-color: #4dc0ff"><span class="hint--top" data-hint=" 0.64%">15.78</span></td>
+  <td style="background-color: #33b7ff"><span class="hint--top" data-hint=" 0.77%">15.80</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 1.02%">15.84</span></td>
+  <td style="background-color: #1aaeff"><span class="hint--top" data-hint=" 0.89%">15.82</span></td>
+  <td style="background-color: #0da9ff"><span class="hint--top" data-hint=" 0.96%">15.83</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-10 14:15:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.38 | MA9: 16.24 ( 0.82%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.78</td>
+  <td style="background-color: #ffc0d8"><span class="hint--top" data-hint=" 0.13%">15.80</span></td>
+  <td style="background-color: #ffa6c8"><span class="hint--top" data-hint=" 0.38%">15.84</span></td>
+  <td style="background-color: #ffb3d0"><span class="hint--top" data-hint=" 0.25%">15.82</span></td>
+  <td style="background-color: #ffadcc"><span class="hint--top" data-hint=" 0.32%">15.83</span></td>
+  <td style="background-color: #ff4d90"><span class="hint--top" data-hint=" 1.27%">15.98</span></td>
+  <td style="background-color: #ff5a98"><span class="hint--top" data-hint=" 1.14%">15.96</span></td>
+  <td style="background-color: #ff5a98"><span class="hint--top" data-hint=" 1.14%">15.96</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 1.52%">16.02</span></td>
+  <td style="background-color: #ff146c"><span class="hint--top" data-hint=" 1.84%">16.07</span></td>
+  <td style="background-color: #ff1a70"><span class="hint--top" data-hint=" 1.77%">16.06</span></td>
+  <td style="background-color: #ff0d68"><span class="hint--top" data-hint=" 1.90%">16.08</span></td>
+  <td style="background-color: #ff1a70"><span class="hint--top" data-hint=" 1.77%">16.06</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 2.03%">16.10</span></td>
+  <td style="background-color: #ff0d68"><span class="hint--top" data-hint=" 1.90%">16.08</span></td>
+  <td style="background-color: #ff2074"><span class="hint--top" data-hint=" 1.71%">16.05</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-10 14:55:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.38 | MA9: 16.24 ( 0.82%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.02</td>
+  <td style="background-color: #ff94bc"><span class="hint--top" data-hint=" 0.31%">16.07</span></td>
+  <td style="background-color: #ff9fc3"><span class="hint--top" data-hint=" 0.25%">16.06</span></td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint=" 0.37%">16.08</span></td>
+  <td style="background-color: #ff9fc3"><span class="hint--top" data-hint=" 0.25%">16.06</span></td>
+  <td style="background-color: #ff72a7"><span class="hint--top" data-hint=" 0.50%">16.10</span></td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint=" 0.37%">16.08</span></td>
+  <td style="background-color: #ffabca"><span class="hint--top" data-hint=" 0.19%">16.05</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.02</span></td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint="-0.75%">15.90</span></td>
+  <td style="background-color: #7dd1ff"><span class="hint--top" data-hint="-0.44%">15.95</span></td>
+  <td style="background-color: #72cdff"><span class="hint--top" data-hint="-0.50%">15.94</span></td>
+  <td style="background-color: #72cdff"><span class="hint--top" data-hint="-0.50%">15.94</span></td>
+  <td style="background-color: #17adff"><span class="hint--top" data-hint="-1.00%">15.86</span></td>
+  <td style="background-color: #22b1ff"><span class="hint--top" data-hint="-0.94%">15.87</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-1.12%">15.84</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-12 09:05:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.47 | MA9: 16.35 ( 0.73%)">up</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.70</td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.19%">15.67</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">15.71</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">15.71</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">15.71</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.06%">15.69</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.06%">15.69</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">15.71</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.06%">15.69</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.06%">15.69</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.06%">15.69</span></td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint=" 0.13%">15.72</span></td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint=" 0.13%">15.72</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.19%">15.73</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.19%">15.73</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.19%">15.73</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-12 10:45:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.47 | MA9: 16.35 ( 0.73%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.78</td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.13%">15.80</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.13%">15.80</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.78</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.78</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.78</span></td>
+  <td style="background-color: #01a5ff"><span class="hint--top" data-hint="-0.13%">15.76</span></td>
+  <td style="background-color: #01a5ff"><span class="hint--top" data-hint="-0.13%">15.76</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint="-0.06%">15.77</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.78</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.78</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint="-0.06%">15.77</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint="-0.06%">15.77</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint="-0.06%">15.77</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.78</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint="-0.06%">15.77</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-12 12:55:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.47 | MA9: 16.35 ( 0.73%)">up</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.69</td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.13%">15.67</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.19%">15.66</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.19%">15.66</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.13%">15.67</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.69</span></td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint="-0.06%">15.68</span></td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint="-0.06%">15.68</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.13%">15.67</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.13%">15.67</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.19%">15.66</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.13%">15.67</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">15.70</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">15.70</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">15.70</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.69</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-16 10:45:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.56 | MA9: 16.40 ( 0.98%)">up</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.74</td>
+  <td style="background-color: #aae1ff"><span class="hint--top" data-hint=" 0.06%">15.75</span></td>
+  <td style="background-color: #aae1ff"><span class="hint--top" data-hint=" 0.06%">15.75</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.74</span></td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint="-0.13%">15.72</span></td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint="-0.13%">15.72</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.74</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.74</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.74</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.74</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.06%">15.73</span></td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint="-0.13%">15.72</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.74</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.19%">15.77</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.38%">15.80</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.25%">15.78</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-18 08:30:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.83 | MA9: 16.66 ( 0.97%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.16</td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.12%">16.14</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.12%">16.14</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.12%">16.14</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.12%">16.14</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.12%">16.14</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.16</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint="-0.06%">16.15</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.16</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint=" 0.19%">16.19</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint=" 0.19%">16.19</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint=" 0.19%">16.19</span></td>
+  <td style="background-color: #ff7bad"><span class="hint--top" data-hint=" 0.12%">16.18</span></td>
+  <td style="background-color: #ff297a"><span class="hint--top" data-hint=" 0.25%">16.20</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.31%">16.21</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.31%">16.21</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-18 09:40:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.83 | MA9: 16.66 ( 0.97%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.21</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.21</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.49%">16.29</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 0.37%">16.27</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint=" 0.25%">16.25</span></td>
+  <td style="background-color: #ff80b0"><span class="hint--top" data-hint=" 0.19%">16.24</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint=" 0.25%">16.25</span></td>
+  <td style="background-color: #ff80b0"><span class="hint--top" data-hint=" 0.19%">16.24</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 0.37%">16.27</span></td>
+  <td style="background-color: #ff80b0"><span class="hint--top" data-hint=" 0.19%">16.24</span></td>
+  <td style="background-color: #ff4d90"><span class="hint--top" data-hint=" 0.31%">16.26</span></td>
+  <td style="background-color: #ff4d90"><span class="hint--top" data-hint=" 0.31%">16.26</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 0.37%">16.27</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 0.37%">16.27</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 0.37%">16.27</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 0.37%">16.27</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-18 16:20:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.83 | MA9: 16.66 ( 0.97%)">up</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.50</td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint=" 0.12%">16.52</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint=" 0.18%">16.53</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint=" 0.12%">16.52</span></td>
+  <td style="background-color: #ff5897"><span class="hint--top" data-hint=" 0.24%">16.54</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint=" 0.18%">16.53</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint=" 0.06%">16.51</span></td>
+  <td style="background-color: #92d9ff"><span class="hint--top" data-hint="-0.12%">16.48</span></td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint="-0.06%">16.49</span></td>
+  <td style="background-color: #ff3b85"><span class="hint--top" data-hint=" 0.30%">16.55</span></td>
+  <td style="background-color: #ff3b85"><span class="hint--top" data-hint=" 0.30%">16.55</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.42%">16.57</span></td>
+  <td style="background-color: #ff1e73"><span class="hint--top" data-hint=" 0.36%">16.56</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.42%">16.57</span></td>
+  <td style="background-color: #ff1e73"><span class="hint--top" data-hint=" 0.36%">16.56</span></td>
+  <td style="background-color: #ff1e73"><span class="hint--top" data-hint=" 0.36%">16.56</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-22 15:10:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 17.55 | MA9: 17.09 ( 2.62%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>17.03</td>
+  <td style="background-color: #c3eaff"><span class="hint--top" data-hint="-0.06%">17.02</span></td>
+  <td style="background-color: #b9e7ff"><span class="hint--top" data-hint="-0.12%">17.01</span></td>
+  <td style="background-color: #ffb9d3"><span class="hint--top" data-hint=" 0.12%">17.05</span></td>
+  <td style="background-color: #ffa6c7"><span class="hint--top" data-hint=" 0.23%">17.07</span></td>
+  <td style="background-color: #ff3b85"><span class="hint--top" data-hint=" 0.88%">17.18</span></td>
+  <td style="background-color: #ff6ba3"><span class="hint--top" data-hint=" 0.59%">17.13</span></td>
+  <td style="background-color: #ff4e91"><span class="hint--top" data-hint=" 0.76%">17.16</span></td>
+  <td style="background-color: #ff629d"><span class="hint--top" data-hint=" 0.65%">17.14</span></td>
+  <td style="background-color: #ff6ba3"><span class="hint--top" data-hint=" 0.59%">17.13</span></td>
+  <td style="background-color: #ff5897"><span class="hint--top" data-hint=" 0.70%">17.15</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint=" 0.53%">17.12</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint=" 0.53%">17.12</span></td>
+  <td style="background-color: #ff629d"><span class="hint--top" data-hint=" 0.65%">17.14</span></td>
+  <td style="background-color: #ff3b85"><span class="hint--top" data-hint=" 0.88%">17.18</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 1.23%">17.24</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-23 08:35:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 17.89 | MA9: 17.31 ( 3.22%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>17.51</td>
+  <td style="background-color: #6eccff"><span class="hint--top" data-hint="-0.34%">17.45</span></td>
+  <td style="background-color: #6eccff"><span class="hint--top" data-hint="-0.34%">17.45</span></td>
+  <td style="background-color: #20b0ff"><span class="hint--top" data-hint="-0.63%">17.40</span></td>
+  <td style="background-color: #20b0ff"><span class="hint--top" data-hint="-0.63%">17.40</span></td>
+  <td style="background-color: #5fc6ff"><span class="hint--top" data-hint="-0.40%">17.44</span></td>
+  <td style="background-color: #10aaff"><span class="hint--top" data-hint="-0.69%">17.39</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.74%">17.38</span></td>
+  <td style="background-color: #20b0ff"><span class="hint--top" data-hint="-0.63%">17.40</span></td>
+  <td style="background-color: #20b0ff"><span class="hint--top" data-hint="-0.63%">17.40</span></td>
+  <td style="background-color: #10aaff"><span class="hint--top" data-hint="-0.69%">17.39</span></td>
+  <td style="background-color: #10aaff"><span class="hint--top" data-hint="-0.69%">17.39</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.74%">17.38</span></td>
+  <td style="background-color: #20b0ff"><span class="hint--top" data-hint="-0.63%">17.40</span></td>
+  <td style="background-color: #10aaff"><span class="hint--top" data-hint="-0.69%">17.39</span></td>
+  <td style="background-color: #30b5ff"><span class="hint--top" data-hint="-0.57%">17.41</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-23 10:35:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 17.89 | MA9: 17.31 ( 3.22%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>17.45</td>
+  <td style="background-color: #bee8ff"><span class="hint--top" data-hint="-0.06%">17.44</span></td>
+  <td style="background-color: #a1deff"><span class="hint--top" data-hint="-0.17%">17.42</span></td>
+  <td style="background-color: #a1deff"><span class="hint--top" data-hint="-0.17%">17.42</span></td>
+  <td style="background-color: #84d3ff"><span class="hint--top" data-hint="-0.29%">17.40</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.40%">17.38</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.40%">17.38</span></td>
+  <td style="background-color: #84d3ff"><span class="hint--top" data-hint="-0.29%">17.40</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint="-0.46%">17.37</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint="-0.52%">17.36</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint="-0.52%">17.36</span></td>
+  <td style="background-color: #84d3ff"><span class="hint--top" data-hint="-0.29%">17.40</span></td>
+  <td style="background-color: #84d3ff"><span class="hint--top" data-hint="-0.29%">17.40</span></td>
+  <td style="background-color: #2cb4ff"><span class="hint--top" data-hint="-0.63%">17.34</span></td>
+  <td style="background-color: #2cb4ff"><span class="hint--top" data-hint="-0.63%">17.34</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.80%">17.31</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-23 11:25:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 17.89 | MA9: 17.31 ( 3.22%)">UP</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>17.36</td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint=" 0.23%">17.40</span></td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint=" 0.23%">17.40</span></td>
+  <td style="background-color: #ff7bad"><span class="hint--top" data-hint="-0.12%">17.34</span></td>
+  <td style="background-color: #ff7bad"><span class="hint--top" data-hint="-0.12%">17.34</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.29%">17.31</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">17.36</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint="-0.17%">17.33</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">17.36</span></td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint=" 0.23%">17.40</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint=" 0.17%">17.39</span></td>
+  <td style="background-color: #01a5ff"><span class="hint--top" data-hint=" 0.29%">17.41</span></td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint=" 0.23%">17.40</span></td>
+  <td style="background-color: #ffa4c6"><span class="hint--top" data-hint="-0.06%">17.35</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.06%">17.37</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint=" 0.12%">17.38</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-24 10:40:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 18.13 | MA9: 17.47 ( 3.62%)">UP</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.98</td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.12%">16.96</span></td>
+  <td style="background-color: #ff84b2"><span class="hint--top" data-hint="-0.29%">16.93</span></td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint=" 0.12%">17.00</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint=" 0.47%">17.06</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint=" 0.59%">17.08</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint=" 0.59%">17.08</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint=" 0.59%">17.08</span></td>
+  <td style="background-color: #0faaff"><span class="hint--top" data-hint=" 0.77%">17.11</span></td>
+  <td style="background-color: #2cb4ff"><span class="hint--top" data-hint=" 0.65%">17.09</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint=" 0.53%">17.07</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.82%">17.12</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint=" 0.53%">17.07</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint=" 0.53%">17.07</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint=" 0.59%">17.08</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint=" 0.47%">17.06</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-24 16:20:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 18.13 | MA9: 17.47 ( 3.62%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>17.20</td>
+  <td style="background-color: #9fddff"><span class="hint--top" data-hint="-0.12%">17.18</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint="-0.17%">17.17</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint="-0.17%">17.17</span></td>
+  <td style="background-color: #72cdff"><span class="hint--top" data-hint="-0.23%">17.16</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.52%">17.11</span></td>
+  <td style="background-color: #2eb5ff"><span class="hint--top" data-hint="-0.41%">17.13</span></td>
+  <td style="background-color: #2eb5ff"><span class="hint--top" data-hint="-0.41%">17.13</span></td>
+  <td style="background-color: #72cdff"><span class="hint--top" data-hint="-0.23%">17.16</span></td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint="-0.35%">17.14</span></td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint="-0.35%">17.14</span></td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint="-0.35%">17.14</span></td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint="-0.35%">17.14</span></td>
+  <td style="background-color: #5bc5ff"><span class="hint--top" data-hint="-0.29%">17.15</span></td>
+  <td style="background-color: #9fddff"><span class="hint--top" data-hint="-0.12%">17.18</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint="-0.17%">17.17</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-25 09:05:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 18.20 | MA9: 17.62 ( 3.18%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>17.32</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">17.32</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">17.32</span></td>
+  <td style="background-color: #ff99c0"><span class="hint--top" data-hint=" 0.12%">17.34</span></td>
+  <td style="background-color: #ff99c0"><span class="hint--top" data-hint=" 0.12%">17.34</span></td>
+  <td style="background-color: #ffb3d0"><span class="hint--top" data-hint=" 0.06%">17.33</span></td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint="-0.12%">17.30</span></td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint="-0.12%">17.30</span></td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint="-0.12%">17.30</span></td>
+  <td style="background-color: #ff99c0"><span class="hint--top" data-hint=" 0.12%">17.34</span></td>
+  <td style="background-color: #ffb3d0"><span class="hint--top" data-hint=" 0.06%">17.33</span></td>
+  <td style="background-color: #80d2ff"><span class="hint--top" data-hint="-0.17%">17.29</span></td>
+  <td style="background-color: #80d2ff"><span class="hint--top" data-hint="-0.17%">17.29</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint="-0.06%">17.31</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint="-0.06%">17.31</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.46%">17.24</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-25 14:15:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 18.20 | MA9: 17.62 ( 3.18%)">UP</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.87</td>
+  <td style="background-color: #ffa2c5"><span class="hint--top" data-hint="-0.24%">16.83</span></td>
+  <td style="background-color: #ffb7d2"><span class="hint--top" data-hint="-0.12%">16.85</span></td>
+  <td style="background-color: #b7e6ff"><span class="hint--top" data-hint=" 0.12%">16.89</span></td>
+  <td style="background-color: #ffa2c5"><span class="hint--top" data-hint="-0.24%">16.83</span></td>
+  <td style="background-color: #ff8cb7"><span class="hint--top" data-hint="-0.36%">16.81</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-1.13%">16.68</span></td>
+  <td style="background-color: #ff2b7b"><span class="hint--top" data-hint="-0.89%">16.72</span></td>
+  <td style="background-color: #ff6ca3"><span class="hint--top" data-hint="-0.53%">16.78</span></td>
+  <td style="background-color: #ff619d"><span class="hint--top" data-hint="-0.59%">16.77</span></td>
+  <td style="background-color: #ff619d"><span class="hint--top" data-hint="-0.59%">16.77</span></td>
+  <td style="background-color: #ff5696"><span class="hint--top" data-hint="-0.65%">16.76</span></td>
+  <td style="background-color: #ff77aa"><span class="hint--top" data-hint="-0.47%">16.79</span></td>
+  <td style="background-color: #ff8cb7"><span class="hint--top" data-hint="-0.36%">16.81</span></td>
+  <td style="background-color: #ff97be"><span class="hint--top" data-hint="-0.30%">16.82</span></td>
+  <td style="background-color: #ffa2c5"><span class="hint--top" data-hint="-0.24%">16.83</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-26 09:10:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 18.14 | MA9: 17.75 ( 2.20%)">UP</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.58</td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint=" 0.12%">16.60</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint=" 0.06%">16.59</span></td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint=" 0.12%">16.60</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.58</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint=" 0.06%">16.59</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.58</span></td>
+  <td style="background-color: #80d2ff"><span class="hint--top" data-hint=" 0.18%">16.61</span></td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint=" 0.12%">16.60</span></td>
+  <td style="background-color: #80d2ff"><span class="hint--top" data-hint=" 0.18%">16.61</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.24%">16.62</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.24%">16.62</span></td>
+  <td style="background-color: #4dc0ff"><span class="hint--top" data-hint=" 0.30%">16.63</span></td>
+  <td style="background-color: #4dc0ff"><span class="hint--top" data-hint=" 0.30%">16.63</span></td>
+  <td style="background-color: #34b7ff"><span class="hint--top" data-hint=" 0.36%">16.64</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.48%">16.66</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-26 10:30:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 18.14 | MA9: 17.75 ( 2.20%)">UP</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.66</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.66</span></td>
+  <td style="background-color: #ffbbd5"><span class="hint--top" data-hint=" 0.06%">16.67</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.66</span></td>
+  <td style="background-color: #bbe7ff"><span class="hint--top" data-hint="-0.06%">16.65</span></td>
+  <td style="background-color: #bbe7ff"><span class="hint--top" data-hint="-0.06%">16.65</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint="-0.24%">16.62</span></td>
+  <td style="background-color: #78cfff"><span class="hint--top" data-hint="-0.30%">16.61</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.36%">16.60</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint="-0.24%">16.62</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint="-0.24%">16.62</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint="-0.24%">16.62</span></td>
+  <td style="background-color: #78cfff"><span class="hint--top" data-hint="-0.30%">16.61</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.36%">16.60</span></td>
+  <td style="background-color: #33b7ff"><span class="hint--top" data-hint="-0.54%">16.57</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.72%">16.54</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-02-26 17:45:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 18.14 | MA9: 17.75 ( 2.20%)">UP</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.43</td>
+  <td style="background-color: #ade2ff"><span class="hint--top" data-hint=" 0.24%">16.47</span></td>
+  <td style="background-color: #a5dfff"><span class="hint--top" data-hint=" 0.30%">16.48</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint=" 0.79%">16.56</span></td>
+  <td style="background-color: #3fbbff"><span class="hint--top" data-hint=" 1.10%">16.61</span></td>
+  <td style="background-color: #3fbbff"><span class="hint--top" data-hint=" 1.10%">16.61</span></td>
+  <td style="background-color: #20b0ff"><span class="hint--top" data-hint=" 1.34%">16.65</span></td>
+  <td style="background-color: #08a7ff"><span class="hint--top" data-hint=" 1.52%">16.68</span></td>
+  <td style="background-color: #18adff"><span class="hint--top" data-hint=" 1.40%">16.66</span></td>
+  <td style="background-color: #08a7ff"><span class="hint--top" data-hint=" 1.52%">16.68</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 1.58%">16.69</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 1.58%">16.69</span></td>
+  <td style="background-color: #20b0ff"><span class="hint--top" data-hint=" 1.34%">16.65</span></td>
+  <td style="background-color: #30b5ff"><span class="hint--top" data-hint=" 1.22%">16.63</span></td>
+  <td style="background-color: #28b3ff"><span class="hint--top" data-hint=" 1.28%">16.64</span></td>
+  <td style="background-color: #4fc1ff"><span class="hint--top" data-hint=" 0.97%">16.59</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-01 09:55:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 17.63 | MA9: 17.69 (- 0.33%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.56</td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint=" 0.12%">16.58</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.56</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.56</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.12%">16.54</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.12%">16.54</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.12%">16.54</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.12%">16.54</span></td>
+  <td style="background-color: #ff0161"><span class="hint--top" data-hint="-0.18%">16.53</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.12%">16.54</span></td>
+  <td style="background-color: #ff0161"><span class="hint--top" data-hint="-0.18%">16.53</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.12%">16.54</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.12%">16.54</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">16.57</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.18%">16.59</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.18%">16.59</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-01 17:15:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 17.63 | MA9: 17.69 (- 0.33%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.43</td>
+  <td style="background-color: #ffc5db"><span class="hint--top" data-hint="-0.06%">16.42</span></td>
+  <td style="background-color: #ffbdd6"><span class="hint--top" data-hint="-0.12%">16.41</span></td>
+  <td style="background-color: #c5ebff"><span class="hint--top" data-hint=" 0.06%">16.44</span></td>
+  <td style="background-color: #ff96bd"><span class="hint--top" data-hint="-0.43%">16.36</span></td>
+  <td style="background-color: #ff3f88"><span class="hint--top" data-hint="-1.10%">16.25</span></td>
+  <td style="background-color: #ff106a"><span class="hint--top" data-hint="-1.46%">16.19</span></td>
+  <td style="background-color: #ff0865"><span class="hint--top" data-hint="-1.52%">16.18</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-1.58%">16.17</span></td>
+  <td style="background-color: #ff186f"><span class="hint--top" data-hint="-1.40%">16.20</span></td>
+  <td style="background-color: #ff2074"><span class="hint--top" data-hint="-1.34%">16.21</span></td>
+  <td style="background-color: #ff186f"><span class="hint--top" data-hint="-1.40%">16.20</span></td>
+  <td style="background-color: #ff3f88"><span class="hint--top" data-hint="-1.10%">16.25</span></td>
+  <td style="background-color: #ff4f91"><span class="hint--top" data-hint="-0.97%">16.27</span></td>
+  <td style="background-color: #ff478c"><span class="hint--top" data-hint="-1.03%">16.26</span></td>
+  <td style="background-color: #ff6ea5"><span class="hint--top" data-hint="-0.73%">16.31</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-03 13:00:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.83 | MA9: 17.48 (- 3.70%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.15</td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.12%">16.13</span></td>
+  <td style="background-color: #ff67a0"><span class="hint--top" data-hint="-0.19%">16.12</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.25%">16.11</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.37%">16.09</span></td>
+  <td style="background-color: #ff67a0"><span class="hint--top" data-hint="-0.19%">16.12</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.37%">16.09</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.25%">16.11</span></td>
+  <td style="background-color: #ff2376"><span class="hint--top" data-hint="-0.31%">16.10</span></td>
+  <td style="background-color: #ff2376"><span class="hint--top" data-hint="-0.31%">16.10</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.12%">16.13</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.15</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.12%">16.13</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.06%">16.14</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.06%">16.14</span></td>
+  <td style="background-color: #aae1ff"><span class="hint--top" data-hint=" 0.06%">16.16</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-03 14:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.83 | MA9: 17.48 (- 3.70%)">DOWN</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.19</td>
+  <td style="background-color: #bbe7ff"><span class="hint--top" data-hint="-0.06%">16.18</span></td>
+  <td style="background-color: #bbe7ff"><span class="hint--top" data-hint="-0.06%">16.18</span></td>
+  <td style="background-color: #ff5595"><span class="hint--top" data-hint=" 0.43%">16.26</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 0.56%">16.28</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint=" 0.56%">16.28</span></td>
+  <td style="background-color: #ff2276"><span class="hint--top" data-hint=" 0.62%">16.29</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint=" 0.49%">16.27</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.74%">16.31</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.74%">16.31</span></td>
+  <td style="background-color: #ff78ab"><span class="hint--top" data-hint=" 0.31%">16.24</span></td>
+  <td style="background-color: #ff89b5"><span class="hint--top" data-hint=" 0.25%">16.23</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint=" 0.37%">16.25</span></td>
+  <td style="background-color: #ff9ac0"><span class="hint--top" data-hint=" 0.19%">16.22</span></td>
+  <td style="background-color: #ff78ab"><span class="hint--top" data-hint=" 0.31%">16.24</span></td>
+  <td style="background-color: #ff78ab"><span class="hint--top" data-hint=" 0.31%">16.24</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-04 10:50:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.51 | MA9: 17.31 (- 4.58%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.97</td>
+  <td style="background-color: #b1e4ff"><span class="hint--top" data-hint=" 0.13%">15.99</span></td>
+  <td style="background-color: #ffbfd7"><span class="hint--top" data-hint="-0.06%">15.96</span></td>
+  <td style="background-color: #bfe9ff"><span class="hint--top" data-hint=" 0.06%">15.98</span></td>
+  <td style="background-color: #ffbfd7"><span class="hint--top" data-hint="-0.06%">15.96</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.97</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.19%">16.00</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.19%">16.00</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.19%">16.00</span></td>
+  <td style="background-color: #96daff"><span class="hint--top" data-hint=" 0.25%">16.01</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint=" 0.38%">16.03</span></td>
+  <td style="background-color: #60c7ff"><span class="hint--top" data-hint=" 0.50%">16.05</span></td>
+  <td style="background-color: #1caeff"><span class="hint--top" data-hint=" 0.81%">16.10</span></td>
+  <td style="background-color: #37b8ff"><span class="hint--top" data-hint=" 0.69%">16.08</span></td>
+  <td style="background-color: #1caeff"><span class="hint--top" data-hint=" 0.81%">16.10</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.94%">16.12</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-08 11:25:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.29 | MA9: 16.80 (- 3.04%)">DOWN</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.38</td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint=" 0.12%">16.40</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint=" 0.24%">16.42</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint=" 0.24%">16.42</span></td>
+  <td style="background-color: #ff2276"><span class="hint--top" data-hint=" 0.31%">16.43</span></td>
+  <td style="background-color: #ff2276"><span class="hint--top" data-hint=" 0.31%">16.43</span></td>
+  <td style="background-color: #ff2276"><span class="hint--top" data-hint=" 0.31%">16.43</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint=" 0.24%">16.42</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint=" 0.24%">16.42</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.37%">16.44</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 0.37%">16.44</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint=" 0.18%">16.41</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint=" 0.12%">16.40</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint="-0.12%">16.36</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint="-0.24%">16.34</span></td>
+  <td style="background-color: #23b1ff"><span class="hint--top" data-hint="-0.31%">16.33</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-08 13:00:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.29 | MA9: 16.80 (- 3.04%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.28</td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.18%">16.31</span></td>
+  <td style="background-color: #6dcbff"><span class="hint--top" data-hint=" 0.43%">16.35</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint=" 0.37%">16.34</span></td>
+  <td style="background-color: #37b8ff"><span class="hint--top" data-hint=" 0.68%">16.39</span></td>
+  <td style="background-color: #1caeff"><span class="hint--top" data-hint=" 0.80%">16.41</span></td>
+  <td style="background-color: #1caeff"><span class="hint--top" data-hint=" 0.80%">16.41</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.92%">16.43</span></td>
+  <td style="background-color: #1caeff"><span class="hint--top" data-hint=" 0.80%">16.41</span></td>
+  <td style="background-color: #bfe9ff"><span class="hint--top" data-hint=" 0.06%">16.29</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.28</span></td>
+  <td style="background-color: #ffb1cf"><span class="hint--top" data-hint="-0.12%">16.26</span></td>
+  <td style="background-color: #b1e4ff"><span class="hint--top" data-hint=" 0.12%">16.30</span></td>
+  <td style="background-color: #bfe9ff"><span class="hint--top" data-hint=" 0.06%">16.29</span></td>
+  <td style="background-color: #96daff"><span class="hint--top" data-hint=" 0.25%">16.32</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint=" 0.31%">16.33</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-08 17:10:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.29 | MA9: 16.80 (- 3.04%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.16</td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.12%">16.18</span></td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint=" 0.06%">16.17</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint=" 0.25%">16.20</span></td>
+  <td style="background-color: #8fd8ff"><span class="hint--top" data-hint=" 0.19%">16.19</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.12%">16.18</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint=" 0.31%">16.21</span></td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint=" 0.06%">16.17</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint=" 0.12%">16.18</span></td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint=" 0.06%">16.17</span></td>
+  <td style="background-color: #ff8fb9"><span class="hint--top" data-hint="-0.19%">16.13</span></td>
+  <td style="background-color: #ffb8d3"><span class="hint--top" data-hint="-0.06%">16.15</span></td>
+  <td style="background-color: #ff67a0"><span class="hint--top" data-hint="-0.31%">16.11</span></td>
+  <td style="background-color: #ff67a0"><span class="hint--top" data-hint="-0.31%">16.11</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.62%">16.06</span></td>
+  <td style="background-color: #ff156d"><span class="hint--top" data-hint="-0.56%">16.07</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-09 08:55:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.18 | MA9: 16.55 (- 2.21%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.07</td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.12%">16.09</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.12%">16.09</span></td>
+  <td style="background-color: #aae1ff"><span class="hint--top" data-hint=" 0.06%">16.08</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.07</span></td>
+  <td style="background-color: #aae1ff"><span class="hint--top" data-hint=" 0.06%">16.08</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.25%">16.03</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.37%">16.01</span></td>
+  <td style="background-color: #ff2376"><span class="hint--top" data-hint="-0.31%">16.02</span></td>
+  <td style="background-color: #ff2376"><span class="hint--top" data-hint="-0.31%">16.02</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.37%">16.01</span></td>
+  <td style="background-color: #ff2376"><span class="hint--top" data-hint="-0.31%">16.02</span></td>
+  <td style="background-color: #aae1ff"><span class="hint--top" data-hint=" 0.06%">16.08</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.07</span></td>
+  <td style="background-color: #aae1ff"><span class="hint--top" data-hint=" 0.06%">16.08</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.19%">16.10</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-11 12:05:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.16 | MA9: 16.21 (- 0.26%)">down</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.13</td>
+  <td style="background-color: #ff99c0"><span class="hint--top" data-hint=" 0.12%">16.15</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.13</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.13</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint="-0.06%">16.12</span></td>
+  <td style="background-color: #80d2ff"><span class="hint--top" data-hint="-0.19%">16.10</span></td>
+  <td style="background-color: #9adbff"><span class="hint--top" data-hint="-0.12%">16.11</span></td>
+  <td style="background-color: #34b7ff"><span class="hint--top" data-hint="-0.37%">16.07</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.50%">16.05</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.50%">16.05</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.50%">16.05</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.50%">16.05</span></td>
+  <td style="background-color: #34b7ff"><span class="hint--top" data-hint="-0.37%">16.07</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint="-0.06%">16.12</span></td>
+  <td style="background-color: #ff99c0"><span class="hint--top" data-hint=" 0.12%">16.15</span></td>
+  <td style="background-color: #ff80b0"><span class="hint--top" data-hint=" 0.19%">16.16</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-11 13:45:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.16 | MA9: 16.21 (- 0.26%)">down</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.32</td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint=" 0.12%">16.34</span></td>
+  <td style="background-color: #ff3b85"><span class="hint--top" data-hint=" 0.31%">16.37</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint=" 0.18%">16.35</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint=" 0.06%">16.33</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint=" 0.06%">16.33</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint=" 0.12%">16.34</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint=" 0.06%">16.33</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint=" 0.12%">16.34</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint="-0.25%">16.28</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.43%">16.25</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.43%">16.25</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint="-0.31%">16.27</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint="-0.25%">16.28</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint="-0.31%">16.27</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint="-0.25%">16.28</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-12 15:55:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.11 | MA9: 16.20 (- 0.54%)">down</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.19</td>
+  <td style="background-color: #92d9ff"><span class="hint--top" data-hint="-0.12%">16.17</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.37%">16.13</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.37%">16.13</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.37%">16.13</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.37%">16.13</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint="-0.31%">16.14</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.43%">16.12</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.37%">16.13</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.37%">16.13</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint="-0.25%">16.15</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint="-0.25%">16.15</span></td>
+  <td style="background-color: #75ceff"><span class="hint--top" data-hint="-0.19%">16.16</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.43%">16.12</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint="-0.31%">16.14</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.37%">16.13</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-15 11:50:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.09 | MA9: 16.16 (- 0.43%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.21</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.21</span></td>
+  <td style="background-color: #ff9dc2"><span class="hint--top" data-hint="-0.25%">16.17</span></td>
+  <td style="background-color: #ff3c86"><span class="hint--top" data-hint="-0.74%">16.09</span></td>
+  <td style="background-color: #ff5595"><span class="hint--top" data-hint="-0.62%">16.11</span></td>
+  <td style="background-color: #ff78ab"><span class="hint--top" data-hint="-0.43%">16.14</span></td>
+  <td style="background-color: #ff5595"><span class="hint--top" data-hint="-0.62%">16.11</span></td>
+  <td style="background-color: #ff307e"><span class="hint--top" data-hint="-0.80%">16.08</span></td>
+  <td style="background-color: #ff2477"><span class="hint--top" data-hint="-0.86%">16.07</span></td>
+  <td style="background-color: #ff3c86"><span class="hint--top" data-hint="-0.74%">16.09</span></td>
+  <td style="background-color: #ff498d"><span class="hint--top" data-hint="-0.68%">16.10</span></td>
+  <td style="background-color: #ff498d"><span class="hint--top" data-hint="-0.68%">16.10</span></td>
+  <td style="background-color: #ff307e"><span class="hint--top" data-hint="-0.80%">16.08</span></td>
+  <td style="background-color: #ff307e"><span class="hint--top" data-hint="-0.80%">16.08</span></td>
+  <td style="background-color: #ff186f"><span class="hint--top" data-hint="-0.93%">16.06</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-1.05%">16.04</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-15 12:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.09 | MA9: 16.16 (- 0.43%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.07</td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint=" 0.12%">16.09</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.19%">16.10</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.19%">16.10</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">16.08</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.06%">16.08</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.06%">16.06</span></td>
+  <td style="background-color: #ff0161"><span class="hint--top" data-hint="-0.19%">16.04</span></td>
+  <td style="background-color: #ff0161"><span class="hint--top" data-hint="-0.19%">16.04</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint="-0.12%">16.05</span></td>
+  <td style="background-color: #ff0161"><span class="hint--top" data-hint="-0.19%">16.04</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.07</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint="-0.12%">16.05</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.07</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint="-0.12%">16.05</span></td>
+  <td style="background-color: #ff0161"><span class="hint--top" data-hint="-0.19%">16.04</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-16 12:05:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.17 | MA9: 16.18 (- 0.04%)">down</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.28</td>
+  <td style="background-color: #ff9fc3"><span class="hint--top" data-hint=" 0.37%">16.34</span></td>
+  <td style="background-color: #ff98bf"><span class="hint--top" data-hint=" 0.43%">16.35</span></td>
+  <td style="background-color: #ffaecd"><span class="hint--top" data-hint=" 0.25%">16.32</span></td>
+  <td style="background-color: #ff81b0"><span class="hint--top" data-hint=" 0.61%">16.38</span></td>
+  <td style="background-color: #ff72a7"><span class="hint--top" data-hint=" 0.74%">16.40</span></td>
+  <td style="background-color: #ff639e"><span class="hint--top" data-hint=" 0.86%">16.42</span></td>
+  <td style="background-color: #ff639e"><span class="hint--top" data-hint=" 0.86%">16.42</span></td>
+  <td style="background-color: #ff3d86"><span class="hint--top" data-hint=" 1.17%">16.47</span></td>
+  <td style="background-color: #ff106a"><span class="hint--top" data-hint=" 1.54%">16.53</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 1.66%">16.55</span></td>
+  <td style="background-color: #ff3581"><span class="hint--top" data-hint=" 1.23%">16.48</span></td>
+  <td style="background-color: #ff176f"><span class="hint--top" data-hint=" 1.47%">16.52</span></td>
+  <td style="background-color: #ff176f"><span class="hint--top" data-hint=" 1.47%">16.52</span></td>
+  <td style="background-color: #ff0865"><span class="hint--top" data-hint=" 1.60%">16.54</span></td>
+  <td style="background-color: #ff2678"><span class="hint--top" data-hint=" 1.35%">16.50</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-16 12:45:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.17 | MA9: 16.18 (- 0.04%)">down</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>16.47</td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint=" 0.36%">16.53</span></td>
+  <td style="background-color: #ff297a"><span class="hint--top" data-hint=" 0.49%">16.55</span></td>
+  <td style="background-color: #ffb8d3"><span class="hint--top" data-hint=" 0.06%">16.48</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint=" 0.30%">16.52</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint=" 0.30%">16.52</span></td>
+  <td style="background-color: #ff3e87"><span class="hint--top" data-hint=" 0.43%">16.54</span></td>
+  <td style="background-color: #ff8fb9"><span class="hint--top" data-hint=" 0.18%">16.50</span></td>
+  <td style="background-color: #ff7bad"><span class="hint--top" data-hint=" 0.24%">16.51</span></td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint="-0.06%">16.46</span></td>
+  <td style="background-color: #a4dfff"><span class="hint--top" data-hint="-0.12%">16.45</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.47</span></td>
+  <td style="background-color: #7bd0ff"><span class="hint--top" data-hint="-0.24%">16.43</span></td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint="-0.49%">16.39</span></td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint="-0.49%">16.39</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.61%">16.37</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-16 14:05:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.17 | MA9: 16.18 (- 0.04%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.35</td>
+  <td style="background-color: #ff4f91"><span class="hint--top" data-hint="-0.49%">16.27</span></td>
+  <td style="background-color: #ff5f9b"><span class="hint--top" data-hint="-0.43%">16.28</span></td>
+  <td style="background-color: #ff6ea5"><span class="hint--top" data-hint="-0.37%">16.29</span></td>
+  <td style="background-color: #ffbdd6"><span class="hint--top" data-hint="-0.06%">16.34</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.35</span></td>
+  <td style="background-color: #ff8eb8"><span class="hint--top" data-hint="-0.24%">16.31</span></td>
+  <td style="background-color: #ff4f91"><span class="hint--top" data-hint="-0.49%">16.27</span></td>
+  <td style="background-color: #ff4f91"><span class="hint--top" data-hint="-0.49%">16.27</span></td>
+  <td style="background-color: #ff307e"><span class="hint--top" data-hint="-0.61%">16.25</span></td>
+  <td style="background-color: #ff106a"><span class="hint--top" data-hint="-0.73%">16.23</span></td>
+  <td style="background-color: #ff106a"><span class="hint--top" data-hint="-0.73%">16.23</span></td>
+  <td style="background-color: #ff106a"><span class="hint--top" data-hint="-0.73%">16.23</span></td>
+  <td style="background-color: #ff5f9b"><span class="hint--top" data-hint="-0.43%">16.28</span></td>
+  <td style="background-color: #ff4f91"><span class="hint--top" data-hint="-0.49%">16.27</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.80%">16.22</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-17 10:05:00</td>
+  <td style="background-color: #00ffd4; text-align: center"><span class="hint--top" data-hint="MA5: 16.18 | MA9: 16.15 ( 0.18%)">up</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>16.16</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.16</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint="-0.19%">16.13</span></td>
+  <td style="background-color: #ff75a9"><span class="hint--top" data-hint="-0.19%">16.13</span></td>
+  <td style="background-color: #ff5897"><span class="hint--top" data-hint="-0.25%">16.12</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">16.15</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">16.15</span></td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint=" 0.06%">16.17</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">16.15</span></td>
+  <td style="background-color: #ffafcd"><span class="hint--top" data-hint="-0.06%">16.15</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">16.16</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint="-0.12%">16.14</span></td>
+  <td style="background-color: #ff92bb"><span class="hint--top" data-hint="-0.12%">16.14</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.43%">16.09</span></td>
+  <td style="background-color: #ff1e73"><span class="hint--top" data-hint="-0.37%">16.10</span></td>
+  <td style="background-color: #ff5897"><span class="hint--top" data-hint="-0.25%">16.12</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-18 08:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.09 | MA9: 16.09 (- 0.05%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.95</td>
+  <td style="background-color: #b6e5ff"><span class="hint--top" data-hint=" 0.06%">15.96</span></td>
+  <td style="background-color: #5bc5ff"><span class="hint--top" data-hint=" 0.31%">16.00</span></td>
+  <td style="background-color: #5bc5ff"><span class="hint--top" data-hint=" 0.31%">16.00</span></td>
+  <td style="background-color: #17adff"><span class="hint--top" data-hint=" 0.50%">16.03</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint=" 0.19%">15.98</span></td>
+  <td style="background-color: #5bc5ff"><span class="hint--top" data-hint=" 0.31%">16.00</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.38%">16.01</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.38%">16.01</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.56%">16.04</span></td>
+  <td style="background-color: #2eb5ff"><span class="hint--top" data-hint=" 0.44%">16.02</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.38%">16.01</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.38%">16.01</span></td>
+  <td style="background-color: #5bc5ff"><span class="hint--top" data-hint=" 0.31%">16.00</span></td>
+  <td style="background-color: #5bc5ff"><span class="hint--top" data-hint=" 0.31%">16.00</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.38%">16.01</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-18 13:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.09 | MA9: 16.09 (- 0.05%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.94</td>
+  <td style="background-color: #bae7ff"><span class="hint--top" data-hint=" 0.06%">15.95</span></td>
+  <td style="background-color: #5dc6ff"><span class="hint--top" data-hint=" 0.38%">16.00</span></td>
+  <td style="background-color: #26b2ff"><span class="hint--top" data-hint=" 0.56%">16.03</span></td>
+  <td style="background-color: #4bbfff"><span class="hint--top" data-hint=" 0.44%">16.01</span></td>
+  <td style="background-color: #26b2ff"><span class="hint--top" data-hint=" 0.56%">16.03</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.69%">16.05</span></td>
+  <td style="background-color: #4bbfff"><span class="hint--top" data-hint=" 0.44%">16.01</span></td>
+  <td style="background-color: #38b8ff"><span class="hint--top" data-hint=" 0.50%">16.02</span></td>
+  <td style="background-color: #38b8ff"><span class="hint--top" data-hint=" 0.50%">16.02</span></td>
+  <td style="background-color: #38b8ff"><span class="hint--top" data-hint=" 0.50%">16.02</span></td>
+  <td style="background-color: #38b8ff"><span class="hint--top" data-hint=" 0.50%">16.02</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.69%">16.05</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.69%">16.05</span></td>
+  <td style="background-color: #5dc6ff"><span class="hint--top" data-hint=" 0.38%">16.00</span></td>
+  <td style="background-color: #5dc6ff"><span class="hint--top" data-hint=" 0.38%">16.00</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-18 16:25:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 16.09 | MA9: 16.09 (- 0.05%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.90</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.90</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.90</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.90</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.90</span></td>
+  <td style="background-color: #ff9ac0"><span class="hint--top" data-hint="-0.13%">15.88</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.50%">15.82</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint="-0.38%">15.84</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint="-0.38%">15.84</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint="-0.25%">15.86</span></td>
+  <td style="background-color: #ff4d90"><span class="hint--top" data-hint="-0.31%">15.85</span></td>
+  <td style="background-color: #ff4d90"><span class="hint--top" data-hint="-0.31%">15.85</span></td>
+  <td style="background-color: #ff4d90"><span class="hint--top" data-hint="-0.31%">15.85</span></td>
+  <td style="background-color: #ff4d90"><span class="hint--top" data-hint="-0.31%">15.85</span></td>
+  <td style="background-color: #ff80b0"><span class="hint--top" data-hint="-0.19%">15.87</span></td>
+  <td style="background-color: #ff9ac0"><span class="hint--top" data-hint="-0.13%">15.88</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-22 13:55:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.89 | MA9: 16.00 (- 0.69%)">down</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.56</td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.26%">15.60</span></td>
+  <td style="background-color: #b3e4ff"><span class="hint--top" data-hint=" 0.06%">15.57</span></td>
+  <td style="background-color: #9adbff"><span class="hint--top" data-hint=" 0.13%">15.58</span></td>
+  <td style="background-color: #80d2ff"><span class="hint--top" data-hint=" 0.19%">15.59</span></td>
+  <td style="background-color: #1aaeff"><span class="hint--top" data-hint=" 0.45%">15.63</span></td>
+  <td style="background-color: #1aaeff"><span class="hint--top" data-hint=" 0.45%">15.63</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.51%">15.64</span></td>
+  <td style="background-color: #34b7ff"><span class="hint--top" data-hint=" 0.39%">15.62</span></td>
+  <td style="background-color: #4dc0ff"><span class="hint--top" data-hint=" 0.32%">15.61</span></td>
+  <td style="background-color: #34b7ff"><span class="hint--top" data-hint=" 0.39%">15.62</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.26%">15.60</span></td>
+  <td style="background-color: #34b7ff"><span class="hint--top" data-hint=" 0.39%">15.62</span></td>
+  <td style="background-color: #4dc0ff"><span class="hint--top" data-hint=" 0.32%">15.61</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.51%">15.64</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.26%">15.60</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-23 08:35:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.72 | MA9: 15.95 (- 1.41%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.43</td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.26%">15.39</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint="-0.39%">15.37</span></td>
+  <td style="background-color: #ff77ab"><span class="hint--top" data-hint="-0.32%">15.38</span></td>
+  <td style="background-color: #ff2276"><span class="hint--top" data-hint="-0.65%">15.33</span></td>
+  <td style="background-color: #ff116b"><span class="hint--top" data-hint="-0.71%">15.32</span></td>
+  <td style="background-color: #ff5595"><span class="hint--top" data-hint="-0.45%">15.36</span></td>
+  <td style="background-color: #ff5595"><span class="hint--top" data-hint="-0.45%">15.36</span></td>
+  <td style="background-color: #ff116b"><span class="hint--top" data-hint="-0.71%">15.32</span></td>
+  <td style="background-color: #ff2276"><span class="hint--top" data-hint="-0.65%">15.33</span></td>
+  <td style="background-color: #ff2276"><span class="hint--top" data-hint="-0.65%">15.33</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint="-0.58%">15.34</span></td>
+  <td style="background-color: #ff5595"><span class="hint--top" data-hint="-0.45%">15.36</span></td>
+  <td style="background-color: #ff3380"><span class="hint--top" data-hint="-0.58%">15.34</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.78%">15.31</span></td>
+  <td style="background-color: #ff2276"><span class="hint--top" data-hint="-0.65%">15.33</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-23 12:20:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.72 | MA9: 15.95 (- 1.41%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.10</td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.13%">15.08</span></td>
+  <td style="background-color: #abe1ff"><span class="hint--top" data-hint=" 0.07%">15.11</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.20%">15.13</span></td>
+  <td style="background-color: #44bdff"><span class="hint--top" data-hint=" 0.26%">15.14</span></td>
+  <td style="background-color: #23b1ff"><span class="hint--top" data-hint=" 0.33%">15.15</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.40%">15.16</span></td>
+  <td style="background-color: #23b1ff"><span class="hint--top" data-hint=" 0.33%">15.15</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint=" 0.13%">15.12</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.10</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint="-0.20%">15.07</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint="-0.26%">15.06</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.10</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint="-0.20%">15.07</span></td>
+  <td style="background-color: #ffaaca"><span class="hint--top" data-hint="-0.07%">15.09</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.10</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-23 14:10:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.72 | MA9: 15.95 (- 1.41%)">DOWN</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.27</td>
+  <td style="background-color: #ffc1d8"><span class="hint--top" data-hint=" 0.07%">15.28</span></td>
+  <td style="background-color: #ffb5d1"><span class="hint--top" data-hint=" 0.13%">15.29</span></td>
+  <td style="background-color: #c0e9ff"><span class="hint--top" data-hint="-0.07%">15.26</span></td>
+  <td style="background-color: #b4e5ff"><span class="hint--top" data-hint="-0.13%">15.25</span></td>
+  <td style="background-color: #84d4ff"><span class="hint--top" data-hint="-0.39%">15.21</span></td>
+  <td style="background-color: #9cdcff"><span class="hint--top" data-hint="-0.26%">15.23</span></td>
+  <td style="background-color: #a8e1ff"><span class="hint--top" data-hint="-0.20%">15.24</span></td>
+  <td style="background-color: #ffb5d1"><span class="hint--top" data-hint=" 0.13%">15.29</span></td>
+  <td style="background-color: #ff78ab"><span class="hint--top" data-hint=" 0.46%">15.34</span></td>
+  <td style="background-color: #ff9cc2"><span class="hint--top" data-hint=" 0.26%">15.31</span></td>
+  <td style="background-color: #ff619c"><span class="hint--top" data-hint=" 0.59%">15.36</span></td>
+  <td style="background-color: #ff186f"><span class="hint--top" data-hint=" 0.98%">15.42</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 1.11%">15.44</span></td>
+  <td style="background-color: #ff3c86"><span class="hint--top" data-hint=" 0.79%">15.39</span></td>
+  <td style="background-color: #ff317e"><span class="hint--top" data-hint=" 0.85%">15.40</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-23 16:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.72 | MA9: 15.95 (- 1.41%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.31</td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint=" 0.13%">15.33</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint=" 0.59%">15.40</span></td>
+  <td style="background-color: #75ceff"><span class="hint--top" data-hint=" 0.39%">15.37</span></td>
+  <td style="background-color: #0faaff"><span class="hint--top" data-hint=" 0.85%">15.44</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint=" 0.78%">15.43</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.91%">15.45</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint=" 0.59%">15.40</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint=" 0.59%">15.40</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint=" 0.65%">15.41</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.46%">15.38</span></td>
+  <td style="background-color: #49bfff"><span class="hint--top" data-hint=" 0.59%">15.40</span></td>
+  <td style="background-color: #0faaff"><span class="hint--top" data-hint=" 0.85%">15.44</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint=" 0.78%">15.43</span></td>
+  <td style="background-color: #0faaff"><span class="hint--top" data-hint=" 0.85%">15.44</span></td>
+  <td style="background-color: #0faaff"><span class="hint--top" data-hint=" 0.85%">15.44</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-24 09:50:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.65 | MA9: 15.86 (- 1.36%)">DOWN</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.51</td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint="-0.13%">15.49</span></td>
+  <td style="background-color: #afe3ff"><span class="hint--top" data-hint="-0.13%">15.49</span></td>
+  <td style="background-color: #92d9ff"><span class="hint--top" data-hint="-0.26%">15.47</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.45%">15.44</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint="-0.52%">15.43</span></td>
+  <td style="background-color: #75ceff"><span class="hint--top" data-hint="-0.39%">15.45</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.45%">15.44</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.45%">15.44</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.45%">15.44</span></td>
+  <td style="background-color: #58c4ff"><span class="hint--top" data-hint="-0.52%">15.43</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.90%">15.37</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-0.90%">15.37</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.77%">15.39</span></td>
+  <td style="background-color: #1eafff"><span class="hint--top" data-hint="-0.77%">15.39</span></td>
+  <td style="background-color: #3bb9ff"><span class="hint--top" data-hint="-0.64%">15.41</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-24 16:25:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.65 | MA9: 15.86 (- 1.36%)">DOWN</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>15.65</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.65</span></td>
+  <td style="background-color: #a6e0ff"><span class="hint--top" data-hint="-0.19%">15.62</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.65</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.65</span></td>
+  <td style="background-color: #a6e0ff"><span class="hint--top" data-hint="-0.19%">15.62</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.51%">15.57</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint="-1.02%">15.49</span></td>
+  <td style="background-color: #1aaeff"><span class="hint--top" data-hint="-0.89%">15.51</span></td>
+  <td style="background-color: #0da9ff"><span class="hint--top" data-hint="-0.96%">15.50</span></td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint="-0.26%">15.61</span></td>
+  <td style="background-color: #99dbff"><span class="hint--top" data-hint="-0.26%">15.61</span></td>
+  <td style="background-color: #8dd7ff"><span class="hint--top" data-hint="-0.32%">15.60</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint="-0.51%">15.57</span></td>
+  <td style="background-color: #27b2ff"><span class="hint--top" data-hint="-0.83%">15.52</span></td>
+  <td style="background-color: #33b7ff"><span class="hint--top" data-hint="-0.77%">15.53</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-25 11:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.49 | MA9: 15.75 (- 1.66%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.35</td>
+  <td style="background-color: #a9e1ff"><span class="hint--top" data-hint=" 0.20%">15.38</span></td>
+  <td style="background-color: #a9e1ff"><span class="hint--top" data-hint=" 0.20%">15.38</span></td>
+  <td style="background-color: #91d8ff"><span class="hint--top" data-hint=" 0.33%">15.40</span></td>
+  <td style="background-color: #ffc0d8"><span class="hint--top" data-hint="-0.07%">15.34</span></td>
+  <td style="background-color: #c1e9ff"><span class="hint--top" data-hint=" 0.07%">15.36</span></td>
+  <td style="background-color: #ffa8c9"><span class="hint--top" data-hint="-0.20%">15.32</span></td>
+  <td style="background-color: #ffc0d8"><span class="hint--top" data-hint="-0.07%">15.34</span></td>
+  <td style="background-color: #ff90ba"><span class="hint--top" data-hint="-0.33%">15.30</span></td>
+  <td style="background-color: #ff6da4"><span class="hint--top" data-hint="-0.52%">15.27</span></td>
+  <td style="background-color: #ff609c"><span class="hint--top" data-hint="-0.59%">15.26</span></td>
+  <td style="background-color: #ff609c"><span class="hint--top" data-hint="-0.59%">15.26</span></td>
+  <td style="background-color: #ff488d"><span class="hint--top" data-hint="-0.72%">15.24</span></td>
+  <td style="background-color: #ff307e"><span class="hint--top" data-hint="-0.85%">15.22</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-1.11%">15.18</span></td>
+  <td style="background-color: #ff0c68"><span class="hint--top" data-hint="-1.04%">15.19</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-25 12:10:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.49 | MA9: 15.75 (- 1.66%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.30</td>
+  <td style="background-color: #ffa9c9"><span class="hint--top" data-hint="-0.20%">15.27</span></td>
+  <td style="background-color: #ff9dc2"><span class="hint--top" data-hint="-0.26%">15.26</span></td>
+  <td style="background-color: #ff9dc2"><span class="hint--top" data-hint="-0.26%">15.26</span></td>
+  <td style="background-color: #ff84b3"><span class="hint--top" data-hint="-0.39%">15.24</span></td>
+  <td style="background-color: #ff6da4"><span class="hint--top" data-hint="-0.52%">15.22</span></td>
+  <td style="background-color: #ff3d86"><span class="hint--top" data-hint="-0.78%">15.18</span></td>
+  <td style="background-color: #ff488d"><span class="hint--top" data-hint="-0.72%">15.19</span></td>
+  <td style="background-color: #ff2477"><span class="hint--top" data-hint="-0.92%">15.16</span></td>
+  <td style="background-color: #ff307e"><span class="hint--top" data-hint="-0.85%">15.17</span></td>
+  <td style="background-color: #ff186f"><span class="hint--top" data-hint="-0.98%">15.15</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-1.11%">15.13</span></td>
+  <td style="background-color: #ff0d68"><span class="hint--top" data-hint="-1.05%">15.14</span></td>
+  <td style="background-color: #ff2477"><span class="hint--top" data-hint="-0.92%">15.16</span></td>
+  <td style="background-color: #ff186f"><span class="hint--top" data-hint="-0.98%">15.15</span></td>
+  <td style="background-color: #ff2477"><span class="hint--top" data-hint="-0.92%">15.16</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-25 14:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.49 | MA9: 15.75 (- 1.66%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>15.09</td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.07%">15.10</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint="-0.13%">15.07</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.07%">15.08</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.20%">15.06</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint="-0.13%">15.07</span></td>
+  <td style="background-color: #ff448b"><span class="hint--top" data-hint="-0.13%">15.07</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.07%">15.08</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.07%">15.08</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.07%">15.10</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.07%">15.08</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">15.09</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.07%">15.10</span></td>
+  <td style="background-color: #88d5ff"><span class="hint--top" data-hint=" 0.07%">15.10</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.07%">15.08</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.20%">15.06</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-30 11:10:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 15.15 | MA9: 15.37 (- 1.45%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>14.94</td>
+  <td style="background-color: #ff67a0"><span class="hint--top" data-hint="-0.13%">14.92</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">14.94</span></td>
+  <td style="background-color: #ff67a0"><span class="hint--top" data-hint="-0.13%">14.92</span></td>
+  <td style="background-color: #ff9ac0"><span class="hint--top" data-hint="-0.07%">14.93</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.27%">14.90</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint="-0.20%">14.91</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint="-0.20%">14.91</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint="-0.20%">14.91</span></td>
+  <td style="background-color: #ff67a0"><span class="hint--top" data-hint="-0.13%">14.92</span></td>
+  <td style="background-color: #ff3480"><span class="hint--top" data-hint="-0.20%">14.91</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.13%">14.96</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.13%">14.96</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.13%">14.96</span></td>
+  <td style="background-color: #33b7ff"><span class="hint--top" data-hint=" 0.20%">14.97</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.27%">14.98</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-31 11:35:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 14.98 | MA9: 15.25 (- 1.78%)">DOWN</span></td>
+  <td style='background-color: #ff0000; text-align: center'>SELL: 9P</td>
+  <td style='background-color: #bbbbbb'>14.86</td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">14.86</span></td>
+  <td style="background-color: #ffbfd7"><span class="hint--top" data-hint=" 0.07%">14.87</span></td>
+  <td style="background-color: #ffccdf"><span class="hint--top" data-hint=" 0.00%">14.86</span></td>
+  <td style="background-color: #bfe9ff"><span class="hint--top" data-hint="-0.07%">14.85</span></td>
+  <td style="background-color: #ffa4c6"><span class="hint--top" data-hint=" 0.20%">14.89</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint=" 0.61%">14.95</span></td>
+  <td style="background-color: #ff1c71"><span class="hint--top" data-hint=" 0.87%">14.99</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint=" 1.01%">15.01</span></td>
+  <td style="background-color: #ff1c71"><span class="hint--top" data-hint=" 0.87%">14.99</span></td>
+  <td style="background-color: #ff5293"><span class="hint--top" data-hint=" 0.61%">14.95</span></td>
+  <td style="background-color: #ff609c"><span class="hint--top" data-hint=" 0.54%">14.94</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint=" 0.34%">14.91</span></td>
+  <td style="background-color: #ff609c"><span class="hint--top" data-hint=" 0.54%">14.94</span></td>
+  <td style="background-color: #ff609c"><span class="hint--top" data-hint=" 0.54%">14.94</span></td>
+  <td style="background-color: #ffa4c6"><span class="hint--top" data-hint=" 0.20%">14.89</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-03-31 13:10:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 14.98 | MA9: 15.25 (- 1.78%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>14.85</td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint=" 0.13%">14.87</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint=" 0.20%">14.88</span></td>
+  <td style="background-color: #89d5ff"><span class="hint--top" data-hint=" 0.13%">14.87</span></td>
+  <td style="background-color: #23b1ff"><span class="hint--top" data-hint=" 0.34%">14.90</span></td>
+  <td style="background-color: #67c9ff"><span class="hint--top" data-hint=" 0.20%">14.88</span></td>
+  <td style="background-color: #abe1ff"><span class="hint--top" data-hint=" 0.07%">14.86</span></td>
+  <td style="background-color: #45bdff"><span class="hint--top" data-hint=" 0.27%">14.89</span></td>
+  <td style="background-color: #ff2376"><span class="hint--top" data-hint="-0.34%">14.80</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.27%">14.81</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.40%">14.79</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.40%">14.79</span></td>
+  <td style="background-color: #ff88b5"><span class="hint--top" data-hint="-0.13%">14.83</span></td>
+  <td style="background-color: #ff458b"><span class="hint--top" data-hint="-0.27%">14.81</span></td>
+  <td style="background-color: #ff66a0"><span class="hint--top" data-hint="-0.20%">14.82</span></td>
+  <td style="background-color: #ff0000"><span class="hint--top" data-hint="-0.40%">14.79</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>2021-04-01 07:30:00</td>
+  <td style="background-color: #ff0000; text-align: center"><span class="hint--top" data-hint="MA5: 14.90 | MA9: 15.13 (- 1.52%)">DOWN</span></td>
+  <td style='background-color: #00ffd4; text-align: center'> BUY: 9P</td>
+  <td style='background-color: #bbbbbb'>14.80</td>
+  <td style="background-color: #b8e6ff"><span class="hint--top" data-hint=" 0.07%">14.81</span></td>
+  <td style="background-color: #8fd8ff"><span class="hint--top" data-hint=" 0.20%">14.83</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.34%">14.85</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint=" 0.41%">14.86</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.34%">14.85</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.34%">14.85</span></td>
+  <td style="background-color: #3ebaff"><span class="hint--top" data-hint=" 0.47%">14.87</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint=" 0.41%">14.86</span></td>
+  <td style="background-color: #52c2ff"><span class="hint--top" data-hint=" 0.41%">14.86</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.34%">14.85</span></td>
+  <td style="background-color: #66c9ff"><span class="hint--top" data-hint=" 0.34%">14.85</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.68%">14.90</span></td>
+  <td style="background-color: #00ffd4"><span class="hint--top" data-hint=" 0.68%">14.90</span></td>
+  <td style="background-color: #15acff"><span class="hint--top" data-hint=" 0.61%">14.89</span></td>
+  <td style="background-color: #29b3ff"><span class="hint--top" data-hint=" 0.54%">14.88</span></td>
+<tr style='color: #000000'>  <td style='color: #ffffff'>overall average</td>
+  <td>&nbsp</td>
+  <td>&nbsp</td>
+  <td>&nbsp</td>
+  <td style="background-color: #c5ebff"> 0.00%</td>
+  <td style="background-color: #b0e3ff"> 0.01%</td>
+  <td style="background-color: #70ccff"> 0.04%</td>
+  <td style="background-color: #55c3ff"> 0.05%</td>
+  <td style="background-color: #96daff"> 0.02%</td>
+  <td style="background-color: #c4eaff"> 0.00%</td>
+  <td style="background-color: #84d3ff"> 0.03%</td>
+  <td style="background-color: #ff97be">-0.02%</td>
+  <td style="background-color: #ffa2c5">-0.02%</td>
+  <td style="background-color: #ff4289">-0.06%</td>
+  <td style="background-color: #7bd0ff"> 0.03%</td>
+  <td style="background-color: #12abff"> 0.08%</td>
+  <td style="background-color: #00ffd4"> 0.08%</td>
+  <td style="background-color: #a1deff"> 0.02%</td>
+  <td style="background-color: #77cfff"> 0.04%</td>
+</tr>
+</table><p>Generated on 2021-04-03 18:52:07.166318.</p><p>Datapoints: 5399, 40 BUY setups, 31 SELL setup</p><p>Daily Trend derived by calculating difference between MA5 and MA9.</p></body><html></html>
