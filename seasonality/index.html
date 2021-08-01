@@ -1,0 +1,57 @@
+<html>
+    <body>
+        <h1>Seasonality Analysis</h1>
+        <h3>Methodology</h3>
+        <ul>
+            <li>Yahoo finance daily OHLC tuples since year 2000 (if available) are the source data</li>
+            <li>The close of the first trading day of the respective year is the percentage baseline</li>
+            <li>On a yearly timeframe, every day's close is normalized towards this baseline</li>
+            <li>On a monthly basis, data is aggregated by linearly counting trading days to compensate for weekday fluctuation.</li>
+            <li>Only the first 19 trading days are used to ensure equal data distribution - this can be potentially optimized by averaging the values found in the end of the month. But otherwise there are potential gaps/jumps because only one out of 10 years in the sequence had a 22 trading day or similiar.</li>
+            <li>The values in the daily bins are averaged to derive the graphs for the respective time frames.</li>
+            <li>All data was obtained and diagrams were created on 2021-08-01.</li>
+        </ul>
+        <p>All graphs are interactive, i.e. lines can be shown/hidden by clicking them in the legend on the side.</p>
+        <h3>Indices</h3>
+        <ul>
+            <li><a href="^DJI_seasonality.html">Dow Jones (^DJI)</a></li>
+            <li><a href="^IXIC_seasonality.html">Nasdaq (^IXIC)</a></li>
+            <li><a href="^GSPC_seasonality.html">SP500 (^GSPC)</a></li>
+            <li><a href="^RUT_seasonality.html">Russell 2000 (^RUT)</a></li>
+            <li><a href="DX-Y.NYB_seasonality.html">US Dollar Index (DX-Y.NYB)</a></li>
+        </ul>
+        <h3>Sectors</h3>
+        <ul>
+            <li><a href="XLE_seasonality.html">Energy (XLE)</a></li>
+            <li><a href="XLB_seasonality.html">Materials (XLB)</a></li>
+            <li><a href="XLI_seasonality.html">Industrials (XLI)</a></li>
+            <li><a href="XLY_seasonality.html">Consumer Discretionary (XLY)</a></li>
+            <li><a href="XLP_seasonality.html">Consumer Staples (XLP)</a></li>
+            <li><a href="XLV_seasonality.html">Health Care (XLV)</a></li>
+            <li><a href="XLF_seasonality.html">Financials (XLF)</a></li>
+            <li><a href="SMH_seasonality.html">Information Technology (SMH)</a></li>
+            <li><a href="XTL_seasonality.html">Communication Services (XTL)</a></li>
+            <li><a href="XLU_seasonality.html">Utilities (XLU)</a></li>
+            <li><a href="IYR_seasonality.html">Real Estate (IYR)</a></li>
+        </ul>
+        <h3>Commodities:</h3>
+        <ul>
+            <li><a href="CC_seasonality.html">Cocoa (CC=F)</a></li>
+            <li><a href="CL_seasonality.html">CrudeOil (CL=F)</a></li>
+            <li><a href="CT_seasonality.html">Cotton (CT=F)</a></li>
+            <li><a href="GC_seasonality.html">Gold (GC=F)</a></li>
+            <li><a href="HG_seasonality.html">Copper (HG=F)</a></li>
+            <li><a href="KC_seasonality.html">Coffee (KC=F)</a></li>
+            <li><a href="NG_seasonality.html">NatGas (NG=F)</a></li>
+            <li><a href="PA_seasonality.html">Palladium (PA=F)</a></li>
+            <li><a href="PL_seasonality.html">Platinum (PL=F)</a></li>
+            <li><a href="SB_seasonality.html">Sugar (SB=F)</a></li>
+            <li><a href="SI_seasonality.html">Silver (SI=F)</a></li>
+            <li><a href="ZW_seasonality.html">Wheat (ZW=F)</a></li>
+        </ul>
+        <h3>Stocks</h3>
+        <ul>
+            <li><a href="AAPL_seasonality.html">Apple (AAPL)</a></li>
+        </ul>
+    </body>
+</html>
